@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .image-container {
+        height: 100vh;
+        width: 100vw;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #image {
+        width: 500px;
+        height: 500px;
+        border: 1px solid #212121;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="image-container">
+      <img id="image" src="" />
+    </div>
+    <script>
+      const urlOptions = {
+        baseURL: "https://api.giphy.com/v1/gifs/",
+        apiKey: "0UTRbFtkMxAplrohufYco5IY74U8hOes",
+        tag: "meme",
+        type: "random",
+        rating: "pg-13",
+      };
+      const giphyURL = encodeURI(
+        urlOptions.baseURL +
+          urlOptions.type +
+          "?api_key=" +
+          urlOptions.apiKey +
+          "&tag=" +
+          urlOptions.tag +
+          "&rating=" +
+          urlOptions.rating
+      );
+
+      const alterImage = () => {
+        fetch(giphyURL)
+          .then((res) => res.json())
+          .then((giphyResponse) => {
+            const image = giphyResponse.data.image_url;
+            const imageElement = document.getElementById("image");
+            imageElement.setAttribute("src", image);
+          })
+          .catch((err) => console.error(err));
+      };
+
+      alterImage();
+      setInterval(() => {
+        alterImage();
+      }, 5000);
+    </script>
+  </body>
+</html>
